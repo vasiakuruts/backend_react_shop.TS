@@ -53,7 +53,7 @@ export class AuthService {
 				email: dto.email,
 				name: faker.name.firstName(),
 				avatarPath: faker.image.avatar(),
-				phone: faker.phone.number('+38 (###) ###-##-##'),
+				phone: faker.phone.imei(),
 				password: await hash(dto.password)
 			}
 		})
