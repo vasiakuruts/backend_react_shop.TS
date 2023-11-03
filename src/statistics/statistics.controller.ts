@@ -1,34 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { StatisticsService } from './statistics.service';
-import { CreateStatisticDto } from './dto/create-statistic.dto';
-import { UpdateStatisticDto } from './dto/update-statistic.dto';
+import {
+	Controller,
+	Get,
+	Post,
+	Body,
+	Patch,
+	Param,
+	Delete
+} from '@nestjs/common'
+import { StatisticsService } from './statistics.service'
+import { CurrentUser } from 'src/auth/decorators/user.decorator'
+import { Auth } from 'src/auth/decorators/auth.decorator'
 
 @Controller('statistics')
 export class StatisticsController {
-  constructor(private readonly statisticsService: StatisticsService) {}
+	constructor(private readonly statisticsService: StatisticsService) {}
 
-  @Post()
-  create(@Body() createStatisticDto: CreateStatisticDto) {
-    return this.statisticsService.create(createStatisticDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.statisticsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.statisticsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStatisticDto: UpdateStatisticDto) {
-    return this.statisticsService.update(+id, updateStatisticDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.statisticsService.remove(+id);
-  }
+	@Get('main')
+	@Auth()
+	async getMainStatistics(@CurrentUser('id') id: number) {
+		return this.statisticsService.getMain(id)
+	}
 }
