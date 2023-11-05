@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import { UserService } from 'src/user/user.service'
-import { UpdateStatisticDto } from './dto/update-statistic.dto'
 
 @Injectable()
 export class StatisticsService {

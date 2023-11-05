@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import generateSlug from 'src/utils/generate-slug'
 import { CategoryDto } from './dto/category.dto'
-import { returnCategoryObject } from './return-category.object'
+import { returnCategoryObject } from './object/return-category.object'
 
 @Injectable()
 export class CategoryService {
@@ -56,8 +56,6 @@ export class CategoryService {
 	}
 
 	async delete(id: number) {
-		const category = await this.byId(id)
-
 		return this.prisma.category.delete({
 			where: { id }
 		})

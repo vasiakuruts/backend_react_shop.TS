@@ -1,26 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePaginationDto } from './dto/create-pagination.dto';
-import { UpdatePaginationDto } from './dto/update-pagination.dto';
+import { Injectable } from '@nestjs/common'
+import { PaginationDto } from './dto/pagination.dto'
 
 @Injectable()
 export class PaginationService {
-  create(createPaginationDto: CreatePaginationDto) {
-    return 'This action adds a new pagination';
-  }
+	getPagination(dto: PaginationDto, defaultPerPage = 30) {
+		const page = dto.page ? +dto.page : 1
+		const perPage = dto.perPage ? +dto.perPage : defaultPerPage
 
-  findAll() {
-    return `This action returns all pagination`;
-  }
+		const skip = (page - 1) * perPage
 
-  findOne(id: number) {
-    return `This action returns a #${id} pagination`;
-  }
-
-  update(id: number, updatePaginationDto: UpdatePaginationDto) {
-    return `This action updates a #${id} pagination`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} pagination`;
-  }
+		return { perPage, skip }
+	}
 }

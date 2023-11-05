@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import { ReviewDto } from './dto/review.dto'
-import { returnReviewObject } from './return-review.object'
+import { returnReviewObject } from './object/return-review.object'
 
 @Injectable()
 export class ReviewService {
