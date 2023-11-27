@@ -3,17 +3,19 @@ import { returnCategoryObject } from 'src/category/object/return-category.object
 import { returnReviewObject } from 'src/review/object/return-review.object'
 
 export const returnProductObject: Prisma.ProductSelect = {
-	images: true,
-	description: true,
-	id: true,
-	name: true,
-	price: true,
-	createdAt: true,
-	slug: true
+  images: true,
+  description: true,
+  id: true,
+  name: true,
+  price: true,
+  createdAt: true,
+  slug: true,
+  reviews: { select: returnReviewObject },
+  category: { select: returnCategoryObject }
 }
 
 export const returnProductObjectFullest: Prisma.ProductSelect = {
-	...returnProductObject,
-	reviews: { select: returnReviewObject },
-	category: { select: returnCategoryObject }
+  ...returnProductObject,
+  reviews: { select: returnReviewObject },
+  category: { select: returnCategoryObject }
 }
