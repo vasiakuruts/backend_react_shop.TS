@@ -6,12 +6,13 @@ import {
 import { Prisma } from '@prisma/client'
 import { hash } from 'argon2'
 import { PrismaService } from 'src/prisma.service'
+import { ProductService } from 'src/product/product.service'
 import { UserDto } from './dto/user.dto'
 import { returnUserObject } from './object/return-user.object'
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private product: ProductService) {}
 
   async byId(id: number, selectObject: Prisma.UserSelect = {}) {
     const user = await this.prisma.user.findUnique({
@@ -58,6 +59,7 @@ export class UserService {
   }
   async toggleFavorite(userId: number, productId: number) {
     const user = await this.byId(userId)
+    const product = await this.product.byId(productId)
 
     if (!user) throw new NotFoundException('User not found!')
 
@@ -68,7 +70,8 @@ export class UserService {
       data: {
         favorites: {
           [isExists ? 'disconnect' : 'connect']: {
-            id: productId
+            id: productId,
+            product: product
           }
         }
       }

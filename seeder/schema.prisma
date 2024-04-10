@@ -11,17 +11,27 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime  @updatedAt @map("updated_at")
-  email      String    @unique
+  id         Int            @id @default(autoincrement())
+  createdAt  DateTime       @default(now()) @map("created_at")
+  updatedAt  DateTime       @updatedAt @map("updated_at")
+  email      String         @unique
   password   String
-  name       String    @unique
-  avatarPath String    @default("/uploads/default-avatar.png") @map("avatar_path")
-  phone      String    @default("")
+  name       String         @unique
+  avatarPath String         @default("/uploads/default-avatar.png") @map("avatar_path")
+  phone      String         @default("")
   orders     Order[]
   reviews    Review[]
-  favorites  Product[]
+  favorites  UserFavorite[]
+}
+
+model UserFavorite {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int     @map("user_id")
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int     @map("product_id")
+
+  @@unique([userId, productId])
 }
 
 model Product {
@@ -41,7 +51,7 @@ model Product {
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId Int?      @map("category_id")
 
-  user User[]
+  user UserFavorite[]
 }
 
 model Category {
